@@ -1,0 +1,37 @@
+package com.project.donut.database
+
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
+import java.time.ZonedDateTime
+import java.util.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.Table
+
+@Entity
+@Table(name = "donut")
+data class Donut(
+
+    @Id
+    @Column(name = "id")
+    val id: UUID,
+
+    @Column(name = "flavour", length = 100)
+    val flavour: String,
+
+    @Column(name = "diameter")
+    val diameter: Double,
+
+    @Column(name = "quantity")
+    val quantity: Int,
+
+    @CreationTimestamp
+    @Column(name = "createdAt")
+    val createdAt: ZonedDateTime,
+
+    @UpdateTimestamp
+    @Column(name = "updatedAt")
+    val updatedAt: ZonedDateTime
+
+)

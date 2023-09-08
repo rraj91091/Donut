@@ -12,17 +12,13 @@ class TestData {
                 id = UUID.randomUUID(),
                 flavour = "chocolate",
                 diameter = 16.3,
-                quantity = 4,
-                createdAt = ZonedDateTime.now(),
-                updatedAt = ZonedDateTime.now()
+                quantity = 4
             ),
             Donut(
                 id = UUID.randomUUID(),
                 flavour = "sugar-glazed",
                 diameter = 16.0,
-                quantity = 3,
-                createdAt = ZonedDateTime.now(),
-                updatedAt = ZonedDateTime.now()
+                quantity = 3
             )
         )
     }

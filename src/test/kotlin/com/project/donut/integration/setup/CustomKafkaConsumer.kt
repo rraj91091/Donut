@@ -15,7 +15,7 @@ data class CustomKafkaConsumer<K, V>(
 ) {
 
     // consider modifying to return ConsumerRecords instead
-    fun getMessageByKey(key: String): V? {
+    fun getMessageByKey(key: K): V? {
         val newRecords = KafkaTestUtils.getRecords(consumer, 5000)
         newRecords.forEach { record ->
             records[record.key()] = record.value()

@@ -1,11 +1,13 @@
 package com.project.donut.integration
 
 import com.project.donut.database.Donut
+import com.project.donut.database.DonutDTO
 import com.project.donut.database.DonutRepository
 import com.project.donut.database.Donuts
 import com.project.donut.integration.setup.AbstractIntegration
 import com.project.donut.integration.setup.IntegrationTest
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
@@ -22,8 +24,25 @@ class DonutControllerIT(
 ) : AbstractIntegration() {
 
     private val apiVersion = "v1"
+    private val createDonutEndpoint = "/$apiVersion/donuts/create"
     private val sendDonutsEndpoint = "/$apiVersion/donuts/send"
     private val getAllDonutsEndpoint = "/$apiVersion/donuts/all"
+
+    @Test
+    fun `createDonut should create a new donut successfully`() {
+        val request = DonutDTO(
+            flavour = "chocolate",
+            diameter = 16.5,
+            quantity = 4
+        )
+
+        val response = callCreateDonut(request)
+        val newDonut = response.body!!
+        assertThat(newDonut.flavour).isEqualTo("chocolate")
+        assertThat(newDonut.diameter).isEqualTo(16.5)
+        assertThat(newDonut.quantity).isEqualTo(4)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+    }
 
     @Test
     fun `sendDonuts should receive request and return correct string message`() {
@@ -55,6 +74,15 @@ class DonutControllerIT(
         assertThat(response.donuts.size).isEqualTo(2)
     }
 
+    private fun callCreateDonut(newDonut: DonutDTO): ResponseEntity<Donut> {
+        val request = HttpEntity(newDonut)
+        return testRestTemplate!!.postForEntity(
+            "http://localhost:$port$createDonutEndpoint",
+            request,
+            Donut::class.java
+        )
+    }
+
     private fun callSendDonuts(message: String): ResponseEntity<String> {
         val request = HttpEntity("String")
         return testRestTemplate!!.postForEntity(
@@ -78,9 +106,7 @@ class DonutControllerIT(
                 id = UUID.randomUUID(),
                 flavour = "sugar-glazed",
                 diameter = 16.3,
-                quantity = 3,
-                createdAt = now(),
-                updatedAt = now()
+                quantity = 3
             )
         )
 
@@ -89,9 +115,7 @@ class DonutControllerIT(
                 id = UUID.randomUUID(),
                 flavour = "sugar-glazed",
                 diameter = 16.3,
-                quantity = 3,
-                createdAt = now(),
-                updatedAt = now()
+                quantity = 3
             )
         )
     }

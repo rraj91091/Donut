@@ -2,6 +2,8 @@ package com.project.donut.database
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import java.time.ZonedDateTime
 import java.util.*
 import javax.persistence.Column
@@ -24,14 +26,14 @@ data class Donut(
     val diameter: Double,
 
     @Column(name = "quantity")
-    val quantity: Int,
+    val quantity: Int
 
+) {
     @CreationTimestamp
     @Column(name = "createdAt")
-    val createdAt: ZonedDateTime,
+    lateinit var createdAt: ZonedDateTime
 
     @UpdateTimestamp
     @Column(name = "updatedAt")
-    val updatedAt: ZonedDateTime
-
-)
+    lateinit var updatedAt: ZonedDateTime
+}

@@ -27,3 +27,11 @@ spring:
     kafka:
       brokers:
         property: spring.kafka.bootstrap-servers
+
+aws:
+  credentials:
+    access-key: access-key
+    secret-key: secret-key
+  s3:
+    bucket: donutBucket
+    region: ap-southeast-1

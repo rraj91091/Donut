@@ -18,7 +18,7 @@ class PgpServiceTest {
     fun `PGP key pair should encrypt and decrypt correctly`() {
         val ciphertext = pgpService.encrypt(plaintext, pgpPublicKey)
         val decryptedPlaintext = pgpService.decrypt(ciphertext, pgpPrivateKey, passphrase)
-
+        println("decryptedPlaintext: $decryptedPlaintext")
         assertEquals(plaintext, decryptedPlaintext)
     }
 
